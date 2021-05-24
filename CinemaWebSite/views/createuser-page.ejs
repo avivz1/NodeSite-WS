@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        form {
+            box-shadow: border-box;
+            font-family: 'El Messiri', sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>--Create User Page --</h1>
+
+    <form action="createuser/create" method="POST">
+        <br>
+        <br>
+
+        <label for="userName">User Name :</label>
+        <input type="text" name="UserName" />
+
+        <br>
+        <br>
+
+        <label for="Password">Password :</label>
+        <input type="text" name="Password" />
+        <br>
+        <br>
+        <input type="submit" value="submit">
+    </form>
+
+    <% if (!flag) {%>
+        <h2>new user creation failed! try again</h2>
+        <%}%>
+
+
+</body>
+
+
+</html>

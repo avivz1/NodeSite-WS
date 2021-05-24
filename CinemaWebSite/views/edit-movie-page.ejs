@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<body>
+
+    <h1>EDIT MOVIE PAGE</h1> 
+    <h3><%=movie.name%></h3>
+
+    <form action="/movies/updatemovie" method="POST">
+        Name: <input type="text" name="name" value="<%=movie.name%>"/><br/>
+        Genres: <input type="text" name="genres" value="<%=movie.genres%>"/><br/>
+        ImageUrl: <input type="text" name="image" value="<%=movie.image%>"/><br/>
+        Premiered: <input type="text" name="premiered" value="<%=movie.premiered%>"/><br/>
+        <input type="submit" value="Update" />
+        <button>Cancle<a href="/movies"></a></button>
+    </form>
+
+</body>
+
+</html>

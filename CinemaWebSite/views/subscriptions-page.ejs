@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script>
+        function subscribe (name){
+            var div = document.getElementById(name);
+            if(div.style.display=="none"){
+                div.style.display="block";
+            }else{
+                div.style.display="none";
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <h1>Subscriptions</h1>
+
+    <button><a href="/subscriptions/allmembers">All Members</a></button>
+    <button><a href="/subscriptions/addmember">Add Member</a></button><br/><br/>
+
+    <% if(showFlag){ %>
+        <%file.data.forEach(mem=>{%>
+            <div style="border: 1px solid black;padding: 5px;width: 250px;">
+                <h3><%=mem.name%></h3><hr>
+                Email : <%=mem.email%><br/>
+                City : <%=mem.city%><br/><br/>
+                <input type="hidden" name="id" value="<%=mem._id%>"/> 
+
+                <button><a href="/subscriptions/editmember/<%=mem.name%>">Edit</a></button>
+                <button><a href="/subscriptions/deletemember/<%=mem.name%>">Delete</a></button><br/><br/>
+
+                <div style="border: 1px solid black;padding: 5px;">
+                    Movies Watched<br/>
+                    <button onclick="subscribe('<%=mem.name%>')">Subscribe to new movie</button>
+                    <div id="<%=mem.name%>" style="display: none;">
+                        Add A New Movie
+                        <form action="/subscriptions/newmoviesubscription" method="POST">
+                            <select name="drop_down" style="width: 140px;">
+                                <%moviesList.data.forEach(movie=>{%>
+                                    <option value="<%=movie._id%>"><%=movie.name%></option>
+                                    <%})%>
+                            </select>
+                            <input style="width: 80px;" type="text" name="date" placeholder="Enter date"/>
+                            <input type="hidden" name="mem_id" value="<%=mem._id%>" />
+                            <input type="submit" value="Subscribe"/>
+                        </form>
+
+
+
+                    </div>
+
+                </div>
+
+                <ul>
+                    <%mem.movies.forEach(mov=>{%>
+                     <li> <%=mov.name%> , <%=mov.date%>  </li>
+                    <%})%>
+
+                </ul>
+                
+            </div><br/><br/>
+        <%})%>
+    <%}%>
+
+    <% if(addFlag){ %>
+        <h2>Add New Member</h2><br/>
+
+        <form action="/subscriptions/submitnewmember" method="POST">
+            Name : <input type="text" name="name"/><br/>
+            Email : <input type="text" name="email"/><br/>
+            City : <input type="text" name="city"/><br/><br/>
+
+            <input type="submit" value="Save" />
+        </form>
+        <form action="/subscriptions" method="GET">
+            <input type="submit" value="Cancle">
+        </form>
+
+        <%}%>    
+        
+    <% if(editFlag){ %>  
+        <h2>Edit Member : <%=file.name%></h2><br/>
+
+        <form action="/subscriptions/updatemember" method="POST">
+        Name : <input type="text" value="<%=file.name%>" name="name" /><br/>
+        Email : <input type="text" value="<%=file.email%>" name="email" /><br/>
+        City : <input type="text" value="<%=file.city%>" name="city" /><br/>
+        <input type="submit" value="Update"/>
+        <input type="hidden" name="id" value="<%=file._id%>" />
+        <button><a href="/subscriptions">Cancle</a></button>
+        </form>
+        <%}%>   
+</body>
+
+</html>

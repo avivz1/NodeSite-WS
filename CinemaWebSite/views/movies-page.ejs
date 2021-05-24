@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  </head>
+
+
+  <body>
+        <h1>Movies </h1><br/>
+        <form action="/movies/allmovies" method="GET" style="display: inline;"><input type="submit" value="All Movies" /></form>
+        <form action="/movies/addmovie" method="GET" style="display: inline;"><input type="submit" value="Add Movie" /></form>
+        <form action="/movies/searchmovie" method="GET" style="display: inline;">
+            Find Movie : 
+            <input type="text" name="name"/>
+            <input type="submit" value="Search" />
+        </form><br/><br/>
+
+
+        <%if(showMovies && !addmovieFlag){%>
+            <div>
+            
+        <table cellspacing="0" border="1px solid black">
+            <tr>
+             <th>Nu.</th>
+             <th>image</th>
+             <th>Name</th>
+             <th>Genres</th>
+             <th>Subscriptions Watched</th>
+             <th> </th>
+            </tr>
+      
+            <%let i=0%>
+            <%file.forEach(movie=>{%>
+                <%i++;%>
+             <tr>
+                 <td><%=i%></td>
+                 <td> <img src=<%=movie.image%> alt="image"></td>
+                 <td><a style="color: black;" href="/movies/moviedata/<%=movie._id%>"><%=movie.name%></a></td>
+                 <td><%=movie.genres%></td>
+                 <td>
+                     <ul>
+                        <% movie.subs.forEach(sub=>{ %>
+                            <li>  <%=sub.memberName%> , <%=sub.date%>  </li>
+                         <%})%>
+                     </ul>
+                 </td>
+                 <td> 
+                    <a href="/movies/editmovie/<%=movie._id%>">Edit</a>
+                    <a href="/movies/deletemovie/<%=movie._id%>">Delete</a>
+         
+                    </td>
+            </tr>
+            <%});%>
+         </table>       
+             </div>
+    
+        <%}%>
+
+
+
+        <%if(addmovieFlag && !showMovies){%>
+                <form style="display: inline;" action="/movies/insertnewmovie" method="POST" >
+                Name : <input type="text" name=name ><br/>
+                Genres : <input type="text" name=genres ><br/>
+                Image Url : <input type="text" name=image ><br/>
+                Premired : <input type="text" name=premiered ><br/>
+                <input type="submit" value="Save"/>
+                </form>
+
+                <form action="/menupage" method="GET" ><input type="submit" value="Cancle"></form>
+
+
+        <%}%>
+
+  </body>
+</html>

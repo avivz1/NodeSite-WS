@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+</head>
+
+<body>
+    <h1>Users Management</h1><br/>
+
+    <form action="/usersmanagement/adduser" method="GET" style="display: inline;"><input type="submit" value="Add User"/></form>
+    <form action="/usersmanagement/showusers" method="GET" style="display: inline;"><input type="submit" value="All Users"/></form><br/><br/>
+
+
+    <% if(editFlag){ %>
+        <form action="/usersmanagement/updateuser" method="POST">
+            First Name : <input type="text" name="firstname" value="<%=file.firstName%>" /><br/>
+            Last Name : <input type="text" name="lastname" value="<%=file.lastName%>" /><br/>
+            User Name : <input type="text" name="username" value="<%=file.userName%>" /><br/>
+            Created Date : <input type="text" name="createdDate" value="<%=file.createdDate%>" /><br/>
+            Session Time Out(Minutes) : <input type="text" name="session" value="<%=file.session%>" /><br/>
+            Permissions : <br/>
+
+            
+            <% if(file.permissions.includes('view-subscriptions')){ %>
+                <input type="checkbox" name=permissions value="view-subscriptions" checked>
+                <label for="view">View Subscriptions</label><br>
+            <%}else{%>
+                <input type="checkbox" name=permissions value="view-subscriptions">
+                <label for="view">View Subscriptions</label><br>
+            <%}%>
+
+            <% if(file.permissions.includes('create-subscriptions')){ %>
+                <input type="checkbox" name=permissions value="create-subscriptions" checked>
+                <label for="view">Create Subscriptions</label><br>
+            <%}else{%>
+                <input type="checkbox" name=permissions value="create-subscriptions">
+                <label for="view">Create Subscriptions</label><br>
+            <%}%>
+
+            <% if(file.permissions.includes('delete-subscriptions')){ %>
+                <input type="checkbox" name=permissions value="delete-subscriptions" checked>
+                <label for="view">Delete Subscriptions</label><br>
+            <%}else{%>
+                <input type="checkbox" name=permissions value="delete-subscriptions">
+                <label for="view">Delete Subscriptions</label><br>
+            <%}%>
+
+            <% if(file.permissions.includes('update-subscriptions')){ %>
+                <input type="checkbox" name=permissions value="update-subscriptions" checked>
+                <label for="view">Update Subscriptions</label><br>
+            <%}else{%>
+                <input type="checkbox" name=permissions value="update-subscriptions">
+                <label for="view">Update Subscriptions</label><br>
+            <%}%>
+            
+            <% if(file.permissions.includes('view-movie')){ %>
+                <input type="checkbox" name=permissions value="view-movie" checked>
+                <label for="view">View Movie</label><br>
+            <%}else{%>
+                <input type="checkbox" name=permissions value="view-movie">
+                <label for="view">View Movie</label><br>
+            <%}%>
+
+            <% if(file.permissions.includes('create-movie')){ %>
+                <input type="checkbox" name=permissions value="create-movie" checked>
+                <label for="view">Create Movie</label><br>
+            <%}else{%>
+                <input type="checkbox" name=permissions value="create-movie">
+                <label for="view">Create Movie</label><br>
+            <%}%>
+    
+            <% if(file.permissions.includes('delete-movie')){ %>
+                <input type="checkbox" name=permissions value="delete-movie" checked>
+                <label for="view">Delete Movie</label><br>
+            <%}else{%>
+                <input type="checkbox" name=permissions value="delete-movie">
+                <label for="view">Delete Movie</label><br>
+            <%}%>
+
+            <% if(file.permissions.includes('update-movie')){ %>
+                <input type="checkbox" name=permissions value="update-movie" checked>
+                <label for="view">Update Movie</label><br>
+            <%}else{%>
+                <input type="checkbox" name=permissions value="update-movie">
+                <label for="view">Update Movie</label><br>
+            <%}%>
+
+            <input type="hidden" name="id" value="<%=file.id%>" />
+            <input type="submit" value="Update" />
+        </form>
+        <form action="/usersmanagement" method="GET">
+            <input type="submit" value="Cancle" />
+        </form>
+
+    <%}%>
+
+
+    <% if(showFlag){ %>
+
+        <%file.forEach(user => {%>
+        <div style="border: 1px solid black;">
+            <b>Name :</b><%=user.name%><br/>
+            <b>User Name :</b><%=user.username%><br/>
+            <b>Session Time Out(Minutes) :</b><%=user.session%><br/>
+            <b>Created Date :</b><%=user.createdDate%><br/>
+            <b>Permissions :</b><%=user.permissions%><br/>
+            <input type="hidden" name="id" value="<%=user.id%>" />
+
+            <form action="/usersmanagement/edituser" method="POST">
+                <input type="hidden" name="id" value="<%=user.id%>" />
+                <input type="submit" value="Edit">
+            </form>
+            <form action="/usersmanagement/deleteuser" method="POST">
+                <input type="hidden" name="id" value="<%=user.id%>" />
+                <input type="submit" value="Delete">
+            </form>
+            <!-- <form action="/usersmanagement/edituser" method="POST">
+                Name : <input type="text" name="fullName" value="<%=user.name%>" /><br/> 
+                User Name : <input type="text" name="userName" value="<%=user.username%>" /><br/> 
+                Session Time Out(Minutes) : <input type="text" name="session" value="<%=user.session%>" /><br/> 
+                Created Date : <input type="text" name="createdDate" value="<%=user.createdDate%>" /> <br/>
+                Permissions : <input type="text" name="permissions" value="<%=user.permissions%>" />
+
+                <input type="hidden" name="id" value="<%=user.id%>" />
+                <input type="submit" value="Edit" />
+            </form>
+            <form action="/usersmanagement/deleteuser/<%=user._id%>" method="GET">
+                <input type="submit" value="Delete"  />
+            </form> -->
+
+        </div><br/>
+        <%})%>
+    <%}%>
+
+
+    <% if(addUserFlag){ %>
+        <form action="/usersmanagement/submituser" method="POST">
+
+            First Name : <input type="text" name=fName /><br/>
+            Last Name : <input type="text" name=lName /><br/>
+            User Name : <input type="text" name=userName /><br/>
+            Session time out (Minutes) : <input type="text" name=session /><br/><br/>
+            Permissions : <br/>
+            <input type="checkbox" name=permissions value="view-subscriptions">
+            <label for="view">View Subscriptions</label><br>
+            
+            <input type="checkbox" name=permissions value="create-subscriptions">
+            <label for="view">Create Subscriptions</label><br>
+    
+            <input type="checkbox" name=permissions value="delete-subscriptions">
+            <label for="view">Delete Subscriptions</label><br>
+    
+            <input type="checkbox" name=permissions value="update-subscriptions">
+            <label for="view">Update Subscriptions</label><br>
+    
+            <input type="checkbox" name=permissions value="view-movie">
+            <label for="view">View Movies</label><br>
+    
+            <input type="checkbox" name=permissions value="create-movie">
+            <label for="view">Create Movie</label><br>
+    
+            <input type="checkbox" name=permissions value="delete-movie">
+            <label for="view">Delete Movie</label><br>
+    
+            <input type="checkbox" name=permissions value="update-movie">
+            <label for="view">Update Movie</label><br><br/>
+    
+    
+            <input type="submit" value="Save" />
+            <button><a href="/usersmanagement">Cancle</a></button>
+        </form>
+
+    <%}%>
+
+</body>
+
+
+</html>
